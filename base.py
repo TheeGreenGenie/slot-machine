@@ -1,8 +1,70 @@
+import random
+
 MAX_LINES = 3
 MAX_BET = 100
 MIN_BET = 1
 
+ROWS = 3
+COLS = 3
 
+
+symbol_count = {
+    "A": 2,
+    "B": 4,
+    "C": 6,
+    "D": 8
+}
+
+symbol_value = {
+    "A": 5,
+    "B": 4,
+    "C": 3,
+    "D": 2
+}
+
+def check_slots(columns, lines, bet, values):
+    winnings = 0 
+    winning_lines = []
+    for line in range(lines):
+        symbol = columns[0][line]
+        for column in columns:
+            check = column[line]
+            if symbol != check:
+                break
+        else:
+            winnings += values[symbol] * bet
+            winning_lines.append(line + 1)
+
+        return winnings, winning_lines
+
+def get_slots_spin(rows, cols, symbols):
+    all_symbols = []
+    for symbol, symbol_count in symbols.items():
+        for _ in range(symbol_count):
+            all_symbols.append(symbol)
+    
+    columns = []
+    for _ in range(cols):
+        column = []
+        symbols_now = all_symbols[:]
+        for _ in range(rows):
+            value = random.choice(symbols_now)
+            symbols_now.remove(value)
+            column.append(value)
+        columns.append(column)
+
+    return columns
+
+def print_slots(columns):
+    for row in range(len(columns[0])):
+        for i, column in enumerate(columns):
+            if i != len(columns) - 1:
+                print(column[row], end="  |  ")
+            else:
+                print(column[row], end="")
+
+        print()
+     
 def deposit():
     while True:
         amount = input("What would you like to deposit? $")
@@ -44,18 +106,36 @@ def get_bet():
             print('Please enter a number.')
     return bet
 
-def main():
-    balance = deposit()
+def spinner(balance):
     lines = get_num_of_lines()
     while True:
         bet = get_bet()
-        if lines*bet > balance:
-            print(f"Your balance is lower than your ${lines*bet} bet. Your balance is ${(bet*lines)-balance} short")
+        tot_bet = lines*bet
+        if tot_bet > balance:
+            print(f"Your balance is lower than your ${tot_bet} bet. Your balance is ${(tot_bet)-balance} short")
         else:
             break
     print(f"You are betting ${bet} on {lines} lines. Your total bet is ${lines*bet}")
 
     print(balance, lines)
 
+    slots = get_slots_spin(ROWS, COLS, symbol_count)
+    print_slots(slots)
+    winnings, winning_lines = check_slots(slots, lines, bet, symbol_value)
+    print(f"You won ${winnings}")
+    print(f"You won on:", *winning_lines)
+    return winnings - tot_bet
+
+def main():
+    balance = deposit()
+    while True:
+        print(f"Current Balance is ${balance}")
+        spin = input("Press enter to play (q to quit).")
+        if spin == 'q':
+            break
+        balance += spinner(balance)
+
+    print(f"You left with ${balance}")
 
 main()
+
