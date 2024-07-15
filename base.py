@@ -1,4 +1,7 @@
 import random
+import tkinter as tk
+from PIL import ImageTk, Image
+import time
 
 MAX_LINES = 3
 MAX_BET = 100
@@ -126,16 +129,30 @@ def spinner(balance):
     print(f"You won on:", *winning_lines)
     return winnings - tot_bet
 
-def main():
-    balance = deposit()
-    while True:
-        print(f"Current Balance is ${balance}")
-        spin = input("Press enter to play (q to quit).")
-        if spin == 'q':
-            break
-        balance += spinner(balance)
+def gui_starter():
+    root = tk.Tk()
+    root.geometry("500x500")
+    root.resizable(False, False)
+    root.title("Slot Machine")
+    image = Image.open('Welcome.png')
+    image = ImageTk.PhotoImage(image)
+    image_label = tk.Label(root, image=image)
+    image_label.place(x=0, y=0, relwidth=1, relheight=1)
+    starter = tk.Button(root, text="Start Game", font=("Arial", 18), bg='yellow', fg='purple', relief='groove', height=2, bd=10)
+    starter.pack(side=tk.BOTTOM)
+    root.mainloop()
 
-    print(f"You left with ${balance}")
+def main():
+    gui_starter()
+    # balance = deposit()
+    # while True:
+    #     print(f"Current Balance is ${balance}")
+    #     spin = input("Press enter to play (q to quit).")
+    #     if spin == 'q':
+    #         break
+    #     balance += spinner(balance)
+
+    # print(f"You left with ${balance}")
 
 main()
 
