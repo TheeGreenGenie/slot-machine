@@ -74,8 +74,6 @@ class My_gui:
             self.newMsg = tk.Label(self.root, text="That is not a number, please enter a number", font=('Arial', 16))
             self.newMsg.pack(padx=10, pady=10)
 
-        print(self.balance)
-
     def bets(self):
         self.newMsg = tk.Label(self.root, text="Input the amount you want to bet on each line, then the number of lines you want to bet on.", wraplength=450, font=('Arial', 16))
         self.newMsg.pack(padx=10, pady=10)
@@ -117,8 +115,7 @@ class My_gui:
         else:
             self.clear()
             self.replace()
-        
-        print(self.bet, self.lines, self.total)
+
 
     def spin(self):
         if self.balance > self.total:
@@ -143,12 +140,8 @@ class My_gui:
         self.last.pack(padx=40)
         self.ender = threading.Timer(5, self.end)
         self.ender.start()
-        print('ended')
 
     def end(self):
         self.root.destroy()
 
-main = My_gui()
-
-main.replace()
 
