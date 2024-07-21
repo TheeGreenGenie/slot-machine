@@ -14,7 +14,7 @@ class My_gui:
         self.menubar = tk.Menu(self.root)
         self.root.title('Slots')
         self.root.geometry("500x500")
-        self.image = Image.open('Welcome.png')
+        self.image = Image.open('images/Welcome.png')
         self.newImg = ImageTk.PhotoImage(self.image)
         self.image_label = tk.Label(self.root, image=self.newImg)
         self.image_label.place(x=0, y=0)
@@ -36,7 +36,7 @@ class My_gui:
     
     def replace(self):
         self.label = tk.Label(self.root, text="")
-        self.image = Image.open('tall_slot_machine_500x500.png')
+        self.image = Image.open('images/tall_slot_machine_500x500.png')
         self.newImg = ImageTk.PhotoImage(self.image)
         self.image_label = tk.Label(self.root, image=self.newImg)
         self.image_label.place(x=0, y=0)
