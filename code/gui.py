@@ -14,6 +14,7 @@ class My_gui:
         self.menubar = tk.Menu(self.root)
         self.root.title('Slots')
         self.root.geometry("500x500")
+        self.root.resizable(False, False)
         self.image = Image.open('images/Welcome.png')
         self.newImg = ImageTk.PhotoImage(self.image)
         self.image_label = tk.Label(self.root, image=self.newImg)
@@ -102,23 +103,19 @@ class My_gui:
         except:
             self.newMsg = tk.Label(self.root, text="The bet you entered is not a number, please enter a number", wraplength=450, font=('Arial', 16))
             self.newMsg.pack(padx=10, pady=10)
-            self.delete = threading.Timer(5, object_destroy(self.newMsg))
-            self.delete.start()
 
         self.lines = self.option.get()
         self.total = self.bet*(self.lines+1)
         if self.total > self.balance:
             self.newMsg = tk.Label(self.root, text=f"You bet ${self.bet} on {self.lines+1} lines. That is ${(self.total)-(self.balance)} more than your balance", wraplength=450, font=('Arial', 16))
             self.newMsg.pack(padx=10, pady=10)
-            self.delete = threading.Timer(5, object_destroy(self.newMsg))
-            self.delete.start()
         else:
             self.clear()
             self.replace()
 
 
     def spin(self):
-        if self.balance > self.total:
+        if self.balance >= self.total:
             self.balance-=self.total
             self.replace()
             self.spun = get_slots_spin()
