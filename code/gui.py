@@ -3,11 +3,14 @@ from PIL import ImageTk, Image
 import threading
 from spinFuncs import *
 
+#Deleter function
 def object_destroy(obj):
     obj.destroy()
 
+#Slots GUI
 class My_gui:
 
+    #Setting up tkinter window and basic variables
     def __init__(self):
         self.balancer = 0
         self.root = tk.Tk()
@@ -23,6 +26,7 @@ class My_gui:
         self.start.pack(side=tk.BOTTOM)
         self.root.mainloop()
 
+    #Screen clear function
     def clear(self):
         for widget in self.root.winfo_children():
             widget.destroy()
@@ -35,6 +39,7 @@ class My_gui:
         else:
             pass
     
+    #Slot spin screen
     def replace(self):
         self.label = tk.Label(self.root, text="")
         self.image = Image.open('images/tall_slot_machine_500x500.png')
@@ -52,7 +57,7 @@ class My_gui:
         self.leave = tk.Button(self.root, text="Leave", font=('Arial', 16), command=self.leaver)
         self.leave.place(x=400, y=450)
 
-
+    #Deposit screen
     def leader(self):
         self.balance = 0
         self.lines = 1
@@ -66,6 +71,7 @@ class My_gui:
         self.button = tk.Button(self.root, text="Enter", font=('Arial', 16), command=self.show)
         self.button.pack(padx=10, pady=10)
 
+    #Deposit Error Messages
     def show(self):
         try:
             self.myMessage = int(self.textbox.get('1.0', tk.END))
@@ -75,6 +81,7 @@ class My_gui:
             self.newMsg = tk.Label(self.root, text="That is not a number, please enter a number", font=('Arial', 16))
             self.newMsg.pack(padx=10, pady=10)
 
+    #Betting Screen
     def bets(self):
         self.newMsg = tk.Label(self.root, text="Input the amount you want to bet on each line, then the number of lines you want to bet on.", wraplength=450, font=('Arial', 16))
         self.newMsg.pack(padx=10, pady=10)
@@ -96,6 +103,7 @@ class My_gui:
         self.alabel = tk.Button(self.root, text='submit', font=('Arial', 16), command=self.setter)
         self.alabel.pack(padx=10, pady=10)
 
+    #Betting Error Messages
     def setter(self):
         try:
             self.bet = (self.textbox.get('1.0', tk.END)).rstrip()
@@ -113,7 +121,7 @@ class My_gui:
             self.clear()
             self.replace()
 
-
+    #Slot chooser / printer
     def spin(self):
         if self.balance >= self.total:
             self.balance-=self.total
@@ -129,8 +137,11 @@ class My_gui:
             self.numLabel3 = tk.Label(self.root, text=self.row_three)
             self.numLabel3.place(x=299, y=183)
             self.winnings = check_slots(self.spun, self.lines+1, self.bet)
+            print(self.winnings)
             self.balance+=self.winnings
+            self.winnings = 0
 
+    #Ending screen
     def leaver(self):
         self.clear()
         self.last = tk.Label(self.root, text=f"You ended with ${self.balance}, come again soon!", font=('Arial', 54), wraplength=400)
